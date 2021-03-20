@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
 app.use(express.json())
+morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
     {
@@ -50,20 +53,20 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const person = req.body
-    if (!person || !person.name) {
+    const personReq = req.body
+    if (!personReq || !personReq.name) {
         return res.status(400).json({
             error: 'No name found in this person!'
         })
     }
 
-    if (!person || !person.number) {
+    if (!personReq || !personReq.number) {
         return res.status(400).json({
             error: 'No number found in this person!'
         })
     }
 
-    if (persons.find(person => person.name)) {
+    if (persons.find(person => person.name === personReq.name)) {
         return res.status(400).json({
             error: 'Name must be unique'
         })
@@ -74,13 +77,13 @@ app.post('/api/persons', (req, res) => {
 
     const newPerson = {
         id: maxId + 1,
-        name: person.name,
-        number: person.number
+        name: personReq.name,
+        number: personReq.number
     }
 
     persons = [... persons, newPerson]
 
-    res.status(201).json(newPerson)
+    res.status(200).json(newPerson)
 })
 
 
