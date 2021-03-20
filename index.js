@@ -31,6 +31,10 @@ let persons = [
     }
 ]
 
+app.get('/', (req, res) => {
+    res.send('<p>Please create content</p>')
+})
+
 app.get('/api/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${persons.length} persons</p><p>${new Date().toISOString()}</p>`)
 })
