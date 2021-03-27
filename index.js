@@ -4,16 +4,18 @@ const express = require('express')
 require('./mongo')
 
 const app = express()
-// const morgan = require('morgan')
+const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
+const notFound = require('./middleware/notFound')
+const errorsHandle = require('./middleware/errorsHandle')
 
 app.use(express.json())
 app.use(express.static('build'))
 app.use(cors())
-// morgan.token('body', function (req) { return JSON.stringify(req.body) })
-// app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
-// app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+morgan.token('body', function (req) { return JSON.stringify(req.body) })
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 
 let persons = []
 
@@ -82,8 +84,15 @@ app.delete('/api/persons/:id', (req, res, next) => {
     res.status(204).end()
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const personReq = req.body
+
+    if (!personReq === undefined) {
+        return res.status(400).json({ 
+            error: 'content missing' 
+        })
+    }
+    
     if (!personReq || !personReq.name) {
         return res.status(400).json({
             error: 'No name found in this person!'
@@ -111,15 +120,12 @@ app.post('/api/persons', (req, res) => {
         .then(savedPerson => {
             res.json(savedPerson)
         })
+        .catch(err => next(err))
 })
 
-app.use((error, req, res, next) => {
-    console.log(error)
-    if (error.name === 'CastError') {
-        return res.status(400).send({error: 'user id is malformed!'})
-    }
-    return res.status(500).end
-})
+app.use(notFound)
+
+app.use(errorsHandle)
 
 const PORT = process.env.PORT
 app.listen(PORT)
