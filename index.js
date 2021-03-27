@@ -22,7 +22,11 @@ app.get('/', (res) => {
 })
 
 app.get('/api/info', (req, res) => {
-    res.send(`<p>Phonebook has info for ${persons.length} persons</p><p>${new Date().toISOString()}</p>`)
+    Person.find({})
+        .then(persons => {
+            res.send(`<p>Phonebook has info for ${persons.length} persons</p><p>${new Date().toISOString()}</p>`)
+        })
+    
 })
 
 app.get('/api/persons', (req, res) => {
@@ -33,18 +37,48 @@ app.get('/api/persons', (req, res) => {
 
 })
 
-app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(person => person.id === id)
-    if (!person) {
-        return res.status(404).end()
-    }
-    return res.json(person)
+app.get('/api/persons/:id', (req, res, next) => {
+    const {id} = req.params
+    Person.findById(id)
+        .then(person => {
+            if (!person) {
+                return res.status(404).end()
+            }
+            return res.json(person)
+        })
+        .catch(err => {
+            next(err)
+        })
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(person => person.id !== id)
+app.put('/api/persons/:id', (req, res, next) => {
+    const {id} = req.params
+    const personReq = req.body
+
+    const personEdited = {
+        name: personReq.name,
+        number: personReq.number
+    }
+
+    Person.findByIdAndUpdate(id, personEdited, { new: true })
+        .then(result => {
+            return res.json(result)
+        })
+        .catch(err => {
+            next(err)
+        })
+})
+
+app.delete('/api/persons/:id', (req, res, next) => {
+    const {id} = req.params
+    Person.findByIdAndRemove(id)
+        .then(result => {
+            console.log(result)
+            res.status(204).end()
+        })
+        .catch(err => {
+            next(err)
+        })
     res.status(204).end()
 })
 
@@ -79,6 +113,13 @@ app.post('/api/persons', (req, res) => {
         })
 })
 
+app.use((error, req, res, next) => {
+    console.log(error)
+    if (error.name === 'CastError') {
+        return res.status(400).send({error: 'user id is malformed!'})
+    }
+    return res.status(500).end
+})
 
 const PORT = process.env.PORT
 app.listen(PORT)
