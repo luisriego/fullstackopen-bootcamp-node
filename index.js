@@ -36,7 +36,6 @@ app.get('/api/persons', (req, res) => {
         .then(persons => {
             res.json(persons)
         })
-
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
