@@ -1,0 +1,27 @@
+{
+  "name": "fob-posts",
+  "version": "1.0.0",
+  "description": "Part 4 of the fullstackopen bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "lint": "npm run lint",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose"
+  },
+  "author": "Luis Riego",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "7.22.0",
+    "nodemon": "2.0.7",
+    "jest": "26.6.3"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "mongoose": "5.12.2",
+    "mongoose-unique-validator": "2.0.3",
+    "morgan": "1.10.0"
+  }
+}
