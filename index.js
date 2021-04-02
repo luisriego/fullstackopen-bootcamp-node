@@ -9,6 +9,7 @@ const cors = require('cors')
 const Blog = require('./models/blog')
 const notFound = require('./middleware/notFound')
 const errorsHandle = require('./middleware/errorsHandle')
+const { constants } = require('zlib')
 
 app.use(cors())
 app.use(express.json())
@@ -38,6 +39,8 @@ app.use(notFound)
 app.use(errorsHandle)
 
 const PORT = process.env.PORT
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+module.exports = { app, server }
