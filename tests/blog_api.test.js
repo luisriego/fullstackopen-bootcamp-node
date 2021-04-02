@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const supertest = require('supertest')
+// const supertest = require('supertest')
 
-const {app, server} = require('../index')
+const { server } = require('../index')
 const Blog = require('../models/blog')
-const { listOfBlogs } = require('./helpers')
+const { api, listOfBlogs, getAllContentsFromPosts } = require('./helpers')
 
-const api = supertest(app)
+// const api = supertest(app)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -24,7 +24,8 @@ test('blogs are returned as json', async () => {
 })
 
 test('there are listOfBlogs.length blogs', async () => {
-  const response = await api.get('/api/blogs')
+  const { response } = await getAllContentsFromPosts()
+
   expect(response.body).toHaveLength(listOfBlogs.length)
 })
 
@@ -36,12 +37,33 @@ test('there are a UID and is named id', async () => {
 })
 
 test('there are a blogs about Go To Statement Considered Harmful', async () => {
-  const response = await api.get('/api/blogs')
-  const contents = response.body.map(blog => blog.title)
+  const { contents } = await getAllContentsFromPosts()
   expect(contents).toContain('Go To Statement Considered Harmful')
 })
 
-test('a new post can be added', async () => {
+//PUT
+test('a blog can be edited', async () => {
+  const toEditBlog = {
+    title: 'A new blog edited',
+    author: 'José L. Riego',
+    url: 'http://www.expresate.com.br/coronavirus',
+    likes: 0
+  }
+  const { contents, response } = await getAllContentsFromPosts()
+  const { body: blogs } = response
+  const [blogToEdit] = blogs
+  await api
+    .put(`/api/blogs/${blogToEdit.id}`)
+    .send(toEditBlog)
+    .expect(200)
+
+  const { contents: afteEditContents } = await getAllContentsFromPosts()
+  // expect(response.body).toHaveLength(listOfBlogs.length)
+  expect(afteEditContents).toContain('A new blog edited')
+})
+
+// POST
+test('a new blog can be added', async () => {
   const newPost = {
     title: 'A new note added',
     author: 'José L. Riego',
@@ -54,17 +76,17 @@ test('a new post can be added', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/blogs')
+  const { contents, response } = await getAllContentsFromPosts()
   expect(response.body).toHaveLength(listOfBlogs.length + 1)
-  const contents = response.body.map(blog => blog.title)
-  expect(contents).toContain('A new note added')
+  expect(contents).toContain(newPost.title)
+
   const { body: blogs } = response
   const lastBlog = blogs[blogs.length -1]
   expect(lastBlog.likes).toBeDefined()
   expect(lastBlog.likes).toBe(0)
 })
 
-test('a new post cannot be added without title and url', async () => {
+test('a new blog cannot be added without title and url', async () => {
   const newPost = {
     title: '',
     author: 'José L. Riego',
@@ -77,8 +99,30 @@ test('a new post cannot be added without title and url', async () => {
     .expect(400)
     .expect('Content-Type', /application\/json/)
 
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(listOfBlogs.length)
+  // const { response } = await getAllContentsFromPosts()
+  // expect(response.body).toHaveLength(listOfBlogs.length)
+})
+
+test('a blog can be deleted', async () => {
+  const { response: responseInit } = await getAllContentsFromPosts()
+  const { body: blogs } = responseInit
+  const [blogToDelete] = blogs
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const { contents, response: responseDeleted } = await getAllContentsFromPosts()
+  expect(responseDeleted.body).toHaveLength(listOfBlogs.length - 1)
+  expect(contents).not.toContain(blogToDelete.content)
+})
+
+test('a blog cannot be deleted if not exist, dhurrrrr!', async () => {
+  await api
+    .delete(`/api/blogs/123456`)
+    .expect(400)
+
+  const { response: responseDeleted } = await getAllContentsFromPosts()
+  expect(responseDeleted.body).toHaveLength(listOfBlogs.length)
 })
 
 afterAll(() => {
