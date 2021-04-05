@@ -23,12 +23,13 @@ const blogSchema = new Schema({
     likes: {
         type: Number,
         minValue: 0,
-        required: true,
+        required: false,
         unique: false
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
   })
 

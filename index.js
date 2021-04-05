@@ -10,6 +10,7 @@ const notFound = require('./middleware/notFound')
 const errorsHandle = require('./middleware/errorsHandle')
 const usersRouter = require('./controllers/users')
 const blogsRouter = require('./controllers/blogs')
+const loginRouter = require('./controllers/login')
 
 app.use(cors())
 app.use(express.json())
@@ -19,6 +20,9 @@ app.use('/api/blogs', blogsRouter)
 
 // User methods
 app.use('/api/users', usersRouter)
+
+// Login method
+app.use('/api/login', loginRouter)
 
 app.use(notFound)
 

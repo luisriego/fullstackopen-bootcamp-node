@@ -20,10 +20,10 @@ const userSchema = new Schema({
         required: true,
         unique: false
     },
-    blogs: {
+    blogs: [{
         type: Schema.Types.ObjectId,
         ref: 'Blog'
-    }
+    }]
   })
 
 userSchema.plugin(uniqueValidator)
