@@ -1,5 +1,5 @@
 const blogsRouter = require('express').Router()
-const userExtractor = require('../middleware/userExtractor')
+const tokenExtractor = require('../middleware/tokenExtractor')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -11,7 +11,7 @@ blogsRouter.get('/', async (request, response, next) => {
   response.json(blogs)
 })
 
-blogsRouter.put('/:id', async (request, response, next) => {
+blogsRouter.put('/:id', tokenExtractor, async (request, response, next) => {
 const { id } = request.params
 const requestBlog = request.body
 
@@ -31,7 +31,7 @@ try {
     }
 })
 
-blogsRouter.post('/', userExtractor, async (request, response, next) => {
+blogsRouter.post('/', tokenExtractor, async (request, response, next) => {
   const { 
     title,
     author,
@@ -59,7 +59,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
   }
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', tokenExtractor, async (request, response, next) => {
   const { id } = request.params
 
   try {

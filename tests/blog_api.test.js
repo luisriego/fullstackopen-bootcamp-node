@@ -62,6 +62,22 @@ test('a blog can be edited', async () => {
   expect(afteEditContents).toContain('A new blog edited')
 })
 
+test('a blog cannot be edited without token', async () => {
+  const toEditBlog = {
+    title: 'A new blog edited',
+    author: 'José L. Riego',
+    url: 'http://www.expresate.com.br/coronavirus',
+    likes: 0
+  }
+  const { contents, response } = await getAllContentsFromPosts()
+  const { body: blogs } = response
+  const [blogToEdit] = blogs
+  await api
+    .put(`/api/blogs/${blogToEdit.id}`)
+    .send(toEditBlog)
+    .expect(401)
+})
+
 // POST
 test('a new blog can be added', async () => {
   const newPost = {
@@ -84,6 +100,20 @@ test('a new blog can be added', async () => {
   const lastBlog = blogs[blogs.length -1]
   expect(lastBlog.likes).toBeDefined()
   expect(lastBlog.likes).toBe(0)
+})
+
+test('a new blog cannot be added without token', async () => {
+  const newPost = {
+    title: '',
+    author: 'José L. Riego',
+    url: '',
+    likes: 0
+  }
+  await api
+    .post('/api/blogs')
+    .send(newPost)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
 })
 
 test('a new blog cannot be added without title and url', async () => {
@@ -120,6 +150,15 @@ test('a blog cannot be deleted if not exist, dhurrrrr!', async () => {
   await api
     .delete(`/api/blogs/123456`)
     .expect(400)
+
+  const { response: responseDeleted } = await getAllContentsFromPosts()
+  expect(responseDeleted.body).toHaveLength(listOfBlogs.length)
+})
+
+test('a blog cannot be deleted if not have token', async () => {
+  await api
+    .delete(`/api/blogs/123456`)
+    .expect(401)
 
   const { response: responseDeleted } = await getAllContentsFromPosts()
   expect(responseDeleted.body).toHaveLength(listOfBlogs.length)

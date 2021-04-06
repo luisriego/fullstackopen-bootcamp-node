@@ -11,7 +11,7 @@ const listOfBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    user: null,
+    user: '5a422aa71b54a676234d17fa',
     __v: 0
   },
   {
@@ -20,7 +20,7 @@ const listOfBlogs = [
     author: 'Author C. Unknow',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 3,
-    user: null,
+    user: '5a422aa71b54a676234d17fa',
     __v: 0
   },
   {
@@ -29,7 +29,7 @@ const listOfBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 15,
-    user: null,
+    user: '5a422aa71b54a676234d17fb',
     __v: 0
   },
   {
@@ -38,7 +38,7 @@ const listOfBlogs = [
     author: 'Fulano de tal',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 15,
-    user: null,
+    user: '5a422aa71b54a676234d17fb',
     __v: 0
   },
   {
@@ -47,7 +47,7 @@ const listOfBlogs = [
     author: 'Fulano de tal',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    user: null,
+    user: '5a422aa71b54a676234d17fb',
     __v: 0
   },
   {
@@ -56,7 +56,7 @@ const listOfBlogs = [
     author: 'Fulano de tal',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 1,
-    user: null,
+    user: '5a422aa71b54a676234d17fb',
     __v: 0
   }
 ]
