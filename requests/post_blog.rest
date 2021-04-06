@@ -1,8 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZDhmMTc0MTI1Njc3Mjc4ZSIsInVzZXJuYW1lIjoibWVuZ2FuaXRvIiwiaWF0IjoxNjE3NjcyMDU4fQ.-aK8lzoiRYrq1Pm2-VQL4TJf8cI2qS46sGqJ1GiE_PY
 
 {
-    "title": "blog 2",
+    "title": "blog 23",
     "author": "mengano",
     "url": "www.mengano.com",
     "likes": 19

@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const userExtractor = require('../middleware/userExtractor')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -30,13 +31,14 @@ try {
     }
 })
 
-blogsRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', userExtractor, async (request, response, next) => {
   const { 
     title,
     author,
-    url,
-    userId 
+    url
   } = request.body
+
+  const { userId } = request
 
   const user = await User.findById(userId)
 
@@ -56,17 +58,6 @@ blogsRouter.post('/', async (request, response, next) => {
     next(error)
   }
 })
-
-// blogsRouter.post('/', async (request, response, next) => {
-//   const newBlog = new Blog(request.body)
-
-//   try {
-//     const savedBlog = await newBlog.save()
-//     response.status(201).json(savedBlog)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
   const { id } = request.params
