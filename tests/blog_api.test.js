@@ -69,7 +69,7 @@ test('a blog cannot be edited without token', async () => {
     url: 'http://www.expresate.com.br/coronavirus',
     likes: 0
   }
-  const { contents, response } = await getAllContentsFromPosts()
+  const { response } = await getAllContentsFromPosts()
   const { body: blogs } = response
   const [blogToEdit] = blogs
   await api

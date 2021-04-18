@@ -1,10 +1,10 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZDhmMTc0MTI1Njc3Mjc4ZSIsInVzZXJuYW1lIjoibWVuZ2FuaXRvIiwiaWF0IjoxNjE3NjcyMDU4fQ.-aK8lzoiRYrq1Pm2-VQL4TJf8cI2qS46sGqJ1GiE_PY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZDhmMTc0MTI1Njc3Mjc4ZSIsInVzZXJuYW1lIjoibWVuZ2FuaXRvIiwiaWF0IjoxNjE4MDk0Mzk0fQ.JBV3clqi6B5aAtPrjNc8ArPyB3pSQzvJxvg41OHBI9s
 
 {
-    "title": "blog 22",
+    "title": "blog 271",
     "author": "mengano",
     "url": "www.mengano.com",
-    "likes": 19
+    "likes": "0"
 }

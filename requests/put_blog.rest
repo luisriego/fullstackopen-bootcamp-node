@@ -1,7 +1,11 @@
-PUT http://localhost:3003/api/blogs/605ebb9d0f5ce50ec31e63e8
+PUT http://localhost:3001/api/blogs/607ac470a254e379d242d197
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZDhmMTc0MTI1Njc3Mjc4ZSIsInVzZXJuYW1lIjoibWVuZ2FuaXRvIiwiaWF0IjoxNjE4MDk0Mzk0fQ.JBV3clqi6B5aAtPrjNc8ArPyB3pSQzvJxvg41OHBI9s
+
 
 {
-    "name": "Pepelu Gómez",
-    "number": "09 876543"
+    "title": "new title",
+    "author": "same author",
+    "url": "same url",
+    "likes": 2
 }

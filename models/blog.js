@@ -20,16 +20,14 @@ const blogSchema = new Schema({
         required: true,
         unique: false
     },
-    likes: {
-        type: Number,
-        minValue: 0,
-        required: false,
-        unique: false
-    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    likes: {
+        type: Number,
+        minValue: 0
     }
   })
 
