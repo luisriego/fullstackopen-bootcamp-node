@@ -24,6 +24,12 @@ app.use('/api/users', usersRouter)
 // Login method
 app.use('/api/login', loginRouter)
 
+// Testing method
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
+
 app.use(notFound)
 
 app.use(errorsHandle)
