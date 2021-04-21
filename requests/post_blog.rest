@@ -6,5 +6,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZ
     "title": "blog 271",
     "author": "mengano",
     "url": "www.mengano.com",
-    "likes": "0"
+    "likes": "120"
 }

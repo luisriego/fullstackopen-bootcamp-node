@@ -7,5 +7,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNmFlNGIyZ
     "title": "new title",
     "author": "same author",
     "url": "same url",
-    "likes": 2
+    "likes": 3
 }
